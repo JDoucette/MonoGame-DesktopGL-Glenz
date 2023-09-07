@@ -59,30 +59,45 @@ namespace Common
 
 		internal static RenderTarget2D CreateRenderTarget(GraphicsDevice graphicsDevice, int width, int height)
 		{
-			// 1.
+			// defaults:
 			//return new RenderTarget2D(graphicsDevice, width, height);
 
-			// 2.
-			//return new RenderTarget2D(graphicsDevice, width, height, 
-			//	mipMap: false, 
-			//	preferredFormat: SurfaceFormat.Color, 
-			//	preferredDepthFormat: DepthFormat.Depth16);
-
-			// 3.
+			// custom:
 			return new RenderTarget2D(graphicsDevice, width, height,
-				mipMap: false,
-				preferredFormat: SurfaceFormat.Color,
-				preferredDepthFormat: DepthFormat.Depth16,
-				preferredMultiSampleCount: 0,
-				usage: RenderTargetUsage.PreserveContents);
+				mipMap: false,  // default
+				preferredFormat: SurfaceFormat.Color,  // default
 
-			// 4.
-			//return new RenderTarget2D(graphicsDevice, width, height,
-			//	mipMap: false,
-			//	preferredFormat: SurfaceFormat.Color,
-			//	preferredDepthFormat: DepthFormat.Depth16,
-			//	preferredMultiSampleCount: 1,  // in DesktopGL, not WindowsDX, this ceases rendering
-			//	usage: RenderTargetUsage.PreserveContents);
+				// ATTEMPTING TO REPRO GLITCH:
+				// This does NOT repro the glitch, but it DOES cause nothing to be rendered, which is even worse. :)
+				preferredDepthFormat: DepthFormat.Depth16,  // anything other than default None is required for glitch
+				preferredMultiSampleCount: 1,  // 0 is default, 1 is required for glitch
+
+				usage: RenderTargetUsage.DiscardContents);  // this doesn't impact
+		}
+
+		public static void Draw(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch,
+			Texture2D textDot, Texture2D textSquare)
+		{
+			// low res target
+			graphicsDevice.SetRenderTarget(renderTarget);
+			graphicsDevice.Clear(Color.Red);
+			Util.RenderDots(graphicsDevice, spriteBatch, textDot);
+			Util.RenderGlenzRectangle(spriteBatch, textSquare);
+
+			// back buffer
+			graphicsDevice.SetRenderTarget(null);
+			graphicsDevice.Clear(Color.DarkBlue);
+			Util.RenderTextureFullScreen(graphicsDevice, spriteBatch, (Texture2D)renderTarget);
+		}
+
+		internal static void LoadContent(GraphicsDevice graphicsDevice, 
+			ref SpriteBatch spriteBatch, ref RenderTarget2D renderTarget, ref Texture2D textDot, ref Texture2D textSquare)
+		{
+			spriteBatch = new SpriteBatch(graphicsDevice);
+			textDot = Util.CreateDotTexture(graphicsDevice, 1);
+			textSquare = Util.CreateDotTexture(graphicsDevice, 8);
+			const int pixelZoom = 6;
+			renderTarget = Util.CreateRenderTarget(graphicsDevice, 800 / pixelZoom, 480 / pixelZoom);
 		}
 	}
 }

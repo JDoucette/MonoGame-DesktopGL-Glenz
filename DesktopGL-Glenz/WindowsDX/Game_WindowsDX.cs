@@ -30,32 +30,18 @@ namespace WindowsDX
 
 		protected override void LoadContent()
 		{
-			spriteBatch = new SpriteBatch(GraphicsDevice);
-			textDot = Util.CreateDotTexture(GraphicsDevice, 1);
-			textSquare = Util.CreateDotTexture(GraphicsDevice, 8);
-			const int pixelZoom = 6;
-			renderTarget = Util.CreateRenderTarget(GraphicsDevice, 800 / pixelZoom, 480 / pixelZoom);
+			Util.LoadContent(GraphicsDevice, ref spriteBatch, ref renderTarget, ref textDot, ref textSquare);
 		}
 
 		protected override void Update(GameTime gameTime)
 		{
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-				Exit();
+			if (Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
-			// low res target
-			GraphicsDevice.SetRenderTarget(renderTarget);
-			GraphicsDevice.Clear(Color.Red);
-			Util.RenderDots(GraphicsDevice, spriteBatch, textDot);
-			Util.RenderGlenzRectangle(spriteBatch, textSquare);
-
-			// back buffer
-			GraphicsDevice.SetRenderTarget(null);
-			GraphicsDevice.Clear(Color.DarkBlue);
-			Util.RenderTextureFullScreen(GraphicsDevice, spriteBatch, (Texture2D)renderTarget);
+			Util.Draw(GraphicsDevice, renderTarget, spriteBatch, textDot, textSquare);
 			base.Draw(gameTime);
 		}
 	}
