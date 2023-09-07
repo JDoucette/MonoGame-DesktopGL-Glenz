@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsDX", "WindowsDX\WindowsDX.csproj", "{69619609-8064-475F-9F2C-78DFB2CB6F98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopGL", "DesktopGL\DesktopGL.csproj", "{DE9A5790-1FD6-4EDC-925C-4060A6FBCA65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{69619609-8064-475F-9F2C-78DFB2CB6F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69619609-8064-475F-9F2C-78DFB2CB6F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69619609-8064-475F-9F2C-78DFB2CB6F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69619609-8064-475F-9F2C-78DFB2CB6F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9A5790-1FD6-4EDC-925C-4060A6FBCA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9A5790-1FD6-4EDC-925C-4060A6FBCA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9A5790-1FD6-4EDC-925C-4060A6FBCA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9A5790-1FD6-4EDC-925C-4060A6FBCA65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C57FF604-6519-4E5F-B68C-BECED532782B}
+	EndGlobalSection
+EndGlobal
