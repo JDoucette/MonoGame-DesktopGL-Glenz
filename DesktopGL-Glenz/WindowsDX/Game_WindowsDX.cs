@@ -1,6 +1,7 @@
 ﻿// Jason Allen Doucette
 // September 6, 2023
 
+using Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +12,7 @@ namespace WindowsDX
 	{
 		private GraphicsDeviceManager graphics;
 		private SpriteBatch spriteBatch;
+		private Texture2D textDot;
 
 		public Game_WindowsDX()
 		{
@@ -21,34 +23,30 @@ namespace WindowsDX
 
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
-
 			base.Initialize();
 		}
 
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
-
-			// TODO: use this.Content to load your game content here
+			textDot = Util.CreateDotTexture(GraphicsDevice);
 		}
 
 		protected override void Update(GameTime gameTime)
 		{
 			if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
 				Exit();
-
-			// TODO: Add your update logic here
-
 			base.Update(gameTime);
 		}
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-			// TODO: Add your drawing code here
-
+			GraphicsDevice.Clear(Color.White);
+			spriteBatch.Begin();
+			Rectangle rect = new Rectangle(0, 0, 700, 400);
+			Color color = new Color(0, 0, 0, 128);
+			spriteBatch.Draw(textDot, rect, color);
+			spriteBatch.End();
 			base.Draw(gameTime);
 		}
 	}
