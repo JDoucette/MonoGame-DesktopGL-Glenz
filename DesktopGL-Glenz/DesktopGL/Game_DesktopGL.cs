@@ -42,11 +42,7 @@ namespace DesktopGL
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.White);
-			spriteBatch.Begin();
-			Rectangle rect = new Rectangle(0, 0, 700, 400);
-			Color color = new Color(0, 0, 0, 128);
-			spriteBatch.Draw(textDot, rect, color);
-			spriteBatch.End();
+			Util.RenderGlenzRectangle(spriteBatch, textDot);
 			base.Draw(gameTime);
 		}
 	}

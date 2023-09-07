@@ -10,11 +10,23 @@ namespace Common
 	{
 		public static Texture2D CreateDotTexture(GraphicsDevice graphicsDevice)
 		{
-			Color[] colorDataArray = new Color[1];
-			colorDataArray[0] = new Color(255, 255, 255, 255);
-			Texture2D text = new Texture2D(graphicsDevice, 1, 1);
+			const int sizeEdge = 8;
+			const int numTexels = sizeEdge * sizeEdge;
+			Color[] colorDataArray = new Color[numTexels];
+			for (int i = 0; i < numTexels; i++)
+				colorDataArray[i] = new Color(255, 255, 255, 255);
+			Texture2D text = new Texture2D(graphicsDevice, sizeEdge, sizeEdge);
 			text.SetData<Color>(colorDataArray);
 			return text;
+		}
+
+		public static void RenderGlenzRectangle(SpriteBatch spriteBatch, Texture2D texture)
+		{
+			spriteBatch.Begin();
+			Rectangle rect = new Rectangle(0, 0, 700, 400);
+			Color color = new Color(0, 0, 0, 128);
+			spriteBatch.Draw(texture, rect, color);
+			spriteBatch.End();
 		}
 	}
 }
