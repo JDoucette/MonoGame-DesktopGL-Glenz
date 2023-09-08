@@ -9,3 +9,5 @@ DesktopGL shows quad triangle split (triangles do not align) with the following:
   
 However, I only see the triangle split in my private Xona System 8 repo.
 In this minimal repro code, the glitch merely doesn't render anything at all.
+
+Bug opened - https://github.com/MonoGame/MonoGame/issues/8065
