@@ -9,6 +9,36 @@ namespace Common
 {
 	public static class Util
 	{
+		internal static RenderTarget2D CreateRenderTarget(GraphicsDevice graphicsDevice, int width, int height)
+		{
+			// defaults:
+			// NO GLITCH.
+			//return new RenderTarget2D(graphicsDevice, width, height);
+
+			// custom:
+			// ATTEMPTING TO REPRO GLITCH:
+			// This does NOT repro the glitch,
+			// but it DOES cause nothing to be rendered, which is even worse!
+			return new RenderTarget2D(graphicsDevice, width, height,
+				mipMap: false,  // default
+				preferredFormat: SurfaceFormat.Color,  // default
+				// ==== GLITCH SETTINGS ================
+				preferredDepthFormat: DepthFormat.Depth16,  // anything other than default None is required for glitch
+				preferredMultiSampleCount: 1,  // 0 is default, 1 is required for glitch
+				// ================================
+				usage: RenderTargetUsage.PreserveContents);  // default = DiscardContents, this doesn't impact
+		}
+
+		internal static void LoadContent(GraphicsDevice graphicsDevice,
+			ref SpriteBatch spriteBatch, ref RenderTarget2D renderTarget, ref Texture2D textDot, ref Texture2D textSquare)
+		{
+			spriteBatch = new SpriteBatch(graphicsDevice);
+			textDot = Util.CreateDotTexture(graphicsDevice, 1);
+			textSquare = Util.CreateDotTexture(graphicsDevice, 8);
+			const int pixelZoom = 6;
+			renderTarget = Util.CreateRenderTarget(graphicsDevice, 800 / pixelZoom, 480 / pixelZoom);
+		}
+
 		public static Texture2D CreateDotTexture(GraphicsDevice graphicsDevice, int sizeEdge)
 		{
 			int numTexels = sizeEdge * sizeEdge;
@@ -23,7 +53,10 @@ namespace Common
 		public static void RenderGlenzRectangle(SpriteBatch spriteBatch, Texture2D texture)
 		{
 			spriteBatch.Begin();
-			Rectangle rect = new Rectangle(20, 10, 80, 40);
+			//spriteBatch.Begin(  // these settings have no impact
+			//	blendState: BlendState.AlphaBlend,  // default
+			//	samplerState: SamplerState.PointClamp);  // nearest neighbour, clamp textures
+			Rectangle rect = new Rectangle(10, 10, 100, 50);
 			Color color = new Color(0, 0, 0, 160);
 			spriteBatch.Draw(texture, rect, color);
 			spriteBatch.End();
@@ -57,24 +90,6 @@ namespace Common
 			spriteBatch.End();
 		}
 
-		internal static RenderTarget2D CreateRenderTarget(GraphicsDevice graphicsDevice, int width, int height)
-		{
-			// defaults:
-			//return new RenderTarget2D(graphicsDevice, width, height);
-
-			// custom:
-			return new RenderTarget2D(graphicsDevice, width, height,
-				mipMap: false,  // default
-				preferredFormat: SurfaceFormat.Color,  // default
-
-				// ATTEMPTING TO REPRO GLITCH:
-				// This does NOT repro the glitch, but it DOES cause nothing to be rendered, which is even worse. :)
-				preferredDepthFormat: DepthFormat.Depth16,  // anything other than default None is required for glitch
-				preferredMultiSampleCount: 1,  // 0 is default, 1 is required for glitch
-
-				usage: RenderTargetUsage.DiscardContents);  // this doesn't impact
-		}
-
 		public static void Draw(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch,
 			Texture2D textDot, Texture2D textSquare)
 		{
@@ -86,18 +101,9 @@ namespace Common
 
 			// back buffer
 			graphicsDevice.SetRenderTarget(null);
-			graphicsDevice.Clear(Color.DarkBlue);
+			graphicsDevice.Clear(Color.CornflowerBlue);
 			Util.RenderTextureFullScreen(graphicsDevice, spriteBatch, (Texture2D)renderTarget);
 		}
 
-		internal static void LoadContent(GraphicsDevice graphicsDevice, 
-			ref SpriteBatch spriteBatch, ref RenderTarget2D renderTarget, ref Texture2D textDot, ref Texture2D textSquare)
-		{
-			spriteBatch = new SpriteBatch(graphicsDevice);
-			textDot = Util.CreateDotTexture(graphicsDevice, 1);
-			textSquare = Util.CreateDotTexture(graphicsDevice, 8);
-			const int pixelZoom = 6;
-			renderTarget = Util.CreateRenderTarget(graphicsDevice, 800 / pixelZoom, 480 / pixelZoom);
-		}
 	}
 }

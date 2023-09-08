@@ -21,6 +21,7 @@ namespace DesktopGL
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
+			this.Window.AllowUserResizing = true;
 		}
 
 		protected override void Initialize()
