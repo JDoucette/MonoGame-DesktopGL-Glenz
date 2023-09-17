@@ -66,7 +66,7 @@ namespace Common
 		{
 			const int numDots = 256;
 			Point size = new Point(graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
-			Random rng = new Random(0);
+			Random rng = new Random();
 			spriteBatch.Begin();
 			for (int i=0; i<numDots; i++)
 			{
